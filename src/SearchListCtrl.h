@@ -278,6 +278,11 @@ protected:
 	void OnPopupGetUrl( wxCommandEvent& event );
 
 	/**
+	 * Event handler for the "copy file name" menu item.
+	 */
+	void OnCopyFileName( wxCommandEvent& event );
+
+	/**
 	 * Event handler for Razorback 2 stats menu items.
 	 */
 	void OnRazorStatsCheck( wxCommandEvent& event );

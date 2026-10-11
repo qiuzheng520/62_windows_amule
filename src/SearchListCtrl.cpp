@@ -43,6 +43,7 @@ wxBEGIN_EVENT_TABLE(CSearchListCtrl, CMuleListCtrl)
 	EVT_LIST_COL_END_DRAG( -1,    CSearchListCtrl::OnColumnResize)
 
 	EVT_MENU( MP_GETED2KLINK,     CSearchListCtrl::OnPopupGetUrl)
+	EVT_MENU( MP_COPYFILENAME,    CSearchListCtrl::OnCopyFileName)
 	EVT_MENU( MP_RAZORSTATS,      CSearchListCtrl::OnRazorStatsCheck)
 	EVT_MENU( MP_SEARCHRELATED,   CSearchListCtrl::OnRelatedSearch)
 	EVT_MENU( MP_MARK_AS_KNOWN,   CSearchListCtrl::OnMarkAsKnown)
@@ -656,10 +657,12 @@ void CSearchListCtrl::OnRightClick(wxListEvent& event)
 #endif
 
 		menu.Append(MP_GETED2KLINK, _("Copy eD2k link to clipboard"));
+		menu.Append(MP_COPYFILENAME, _("Copy file name to clipboard"));
 
 		// These should only be enabled for single-selections
 		bool enable = (GetSelectedItemCount() == 1);
 		menu.Enable(MP_GETED2KLINK, enable);
+		menu.Enable(MP_COPYFILENAME, enable);
 		menu.Enable(MP_MENU_CATS, (theApp->glob_prefs->GetCatCount() > 1));
 
 		PopupMenu(&menu, event.GetPoint());
@@ -700,6 +703,18 @@ void CSearchListCtrl::OnPopupGetUrl( wxCommandEvent& WXUNUSED(event) )
 
 	if (!URIs.IsEmpty()) {
 		theApp->CopyTextToClipboard( URIs.RemoveLast() );
+	}
+}
+
+
+void CSearchListCtrl::OnCopyFileName( wxCommandEvent& WXUNUSED(event) )
+{
+	long index = GetNextItem( -1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED );
+
+	if (index != -1) {
+		CSearchFile* file = reinterpret_cast<CSearchFile*>(GetItemData(index));
+
+		theApp->CopyTextToClipboard( file->GetFileName().GetPrintable() );
 	}
 }
 

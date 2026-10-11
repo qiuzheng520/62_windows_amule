@@ -5513,6 +5513,10 @@ msgstr "標記為已知檔案"
 msgid "Copy eD2k link to clipboard"
 msgstr "複製 eD2k 連結到剪貼簿"
 
+#: src/SearchListCtrl.cpp:660
+msgid "Copy file name to clipboard"
+msgstr "複製檔名到剪貼簿"
+
 #: src/SearchListCtrl.cpp:1020
 msgid "Canceled"
 msgstr "已取消"
