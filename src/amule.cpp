@@ -1286,6 +1286,13 @@ void CamuleApp::SetOSFiles(const wxString& new_path)
 #ifndef wxUSE_STACKWALKER
 #define wxUSE_STACKWALKER 0
 #endif
+
+#if defined(_MSC_VER) && defined(NDEBUG)
+// <assert.h> only declares _wassert when NDEBUG is off; Release builds
+// define it, so declare the CRT symbol ourselves at file scope.
+extern "C" void __cdecl _wassert(const wchar_t*, const wchar_t*, unsigned);
+#endif
+
 void CamuleApp::OnAssertFailure(const wxChar* file, int line,
 				const wxChar* func, const wxChar* cond, const wxChar* msg)
 {

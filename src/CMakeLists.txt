@@ -283,6 +283,27 @@ if (BUILD_MONOLITHIC)
 		set_target_properties (amule PROPERTIES
 			WIN32_EXECUTABLE TRUE
 		)
+
+		# Copy translation catalogs next to the executable so an in-tree
+		# (non-installed) build picks them up.  wxLocale's lookup prefix
+		# on Windows is wxStandardPaths::GetResourcesDir() + "/locale",
+		# which resolves to the directory containing the .exe.  Done here
+		# (not in po/) because the `amule` target is defined in this file
+		# while `po` is added earlier in the top-level CMakeLists.
+		if (ENABLE_NLS AND AMULE_TRANSLATIONS)
+			add_dependencies (amule pofiles)
+			foreach (_lang IN LISTS AMULE_TRANSLATIONS)
+				set (_mo_dir "$<TARGET_FILE_DIR:amule>/locale/${_lang}/LC_MESSAGES")
+				add_custom_command (TARGET amule POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -E make_directory "${_mo_dir}"
+					COMMAND ${CMAKE_COMMAND} -E copy_if_different
+						"${CMAKE_BINARY_DIR}/po/${_lang}.gmo"
+						"${_mo_dir}/amule.mo"
+					COMMENT "Copying ${_lang} catalog next to aMule.exe"
+					VERBATIM
+				)
+			endforeach()
+		endif()
 	endif()
 
 	if (APPLE)

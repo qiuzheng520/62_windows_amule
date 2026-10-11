@@ -1097,14 +1097,20 @@ void InitLocale(wxLocale& locale, int language)
 {
 	locale.Init(language, wxLOCALE_LOAD_DEFAULT);
 
-#if defined(__WXMAC__) || defined(__WINDOWS__)
+#if defined(__WXMAC__)
 	// On macOS, GetDataDir() returns <bundle>/Contents/SharedSupport, while
 	// .mo catalogs live under <bundle>/Contents/Resources alongside the
 	// other bundle resources -- which is what GetResourcesDir() returns.
-	// On Windows both methods return the directory containing the .exe,
-	// so this is equivalent there.  Linux falls through to libintl's
-	// system search paths (share/locale).
 	locale.AddCatalogLookupPathPrefix(JoinPaths(wxStandardPaths::Get().GetResourcesDir(), "locale"));
+#elif defined(__WINDOWS__)
+	// On Windows the catalogs live in a "locale" subdirectory next to the
+	// executable (both for an installed build and for an in-tree build).
+	// wxStandardPaths::GetDataDir()/GetResourcesDir() are unreliable here:
+	// wxMSW can return the install prefix (the parent of the directory
+	// holding the .exe) instead of the .exe directory itself, which made
+	// the lookup fail.  Derive the path from the executable directly.
+	locale.AddCatalogLookupPathPrefix(JoinPaths(
+		wxFileName(wxStandardPaths::Get().GetExecutablePath()).GetPath(), "locale"));
 #endif /* (!)(defined(__WXMAC__) || defined(__WINDOWS__)) */
 
 	locale.AddCatalog(PACKAGE);

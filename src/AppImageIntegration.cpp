@@ -41,7 +41,9 @@
 #include <wx/utils.h>
 
 #include <cstdlib>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 
 namespace {
@@ -217,6 +219,7 @@ void PromptAndInstall(wxWindow* parent)
 		return;
 	}
 
+#ifdef __WXGTK__
 	wxRichMessageDialog dlg(parent,
 		_("aMule can install a desktop launcher and icon into your home directory "
 		  "so it appears in your application menu like a regularly installed app. "
@@ -306,6 +309,7 @@ void PromptAndInstall(wxWindow* parent)
 	if (parent) {
 		parent->Close(true);
 	}
+#endif // __WXGTK__
 }
 
 } // namespace AppImageIntegration
