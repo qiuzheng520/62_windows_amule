@@ -24,6 +24,7 @@
 //
 
 #include "ClientDetailDialog.h"	// Interface declarations
+#include "MuleTextCtrl.h"	// Needed for CMuleTextCtrl
 #include "PartFile.h"		// Needed for CPartFile
 #include "UploadQueue.h"	// Needed for CUploadQueue
 #include "ServerList.h"		// Needed for CServerList
@@ -105,18 +106,18 @@ bool CClientDetailDialog::OnInitDialog() {
 		CFormat("%u (%s)") % m_client.GetUserIDHybrid() % (m_client.HasLowID() ? _("LowID") : _("HighID")));
 
 	// Client IP/Port
-	CastChild(ID_DIP, wxStaticText)->SetLabel(
+	CastChild(ID_DIP, CMuleTextCtrl)->SetValue(
 		CFormat("%s:%i") % m_client.GetFullIP() % m_client.GetUserPort());
 
 	// Server IP/Port/Name
 	if (m_client.GetServerIP()) {
 		wxString srvaddr = Uint32toStringIP(m_client.GetServerIP());
-		CastChild(ID_DSIP, wxStaticText)->SetLabel(
+		CastChild(ID_DSIP, CMuleTextCtrl)->SetValue(
 			CFormat("%s:%i") % srvaddr % m_client.GetServerPort());
 		CastChild(ID_DSNAME, wxStaticText)->SetLabel(
 			m_client.GetServerName());
 	} else {
-		CastChild(ID_DSIP, wxStaticText)->SetLabel(_("Unknown"));
+		CastChild(ID_DSIP, CMuleTextCtrl)->SetValue(_("Unknown"));
 		CastChild(ID_DSNAME, wxStaticText)->SetLabel(_("Unknown"));
 	}
 

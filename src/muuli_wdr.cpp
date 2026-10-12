@@ -1056,9 +1056,10 @@ wxSizer *clientDetails( wxWindow *parent, bool call_fit, bool set_sizer )
     item10->Add( item14, wxSizerFlags().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
     wxStaticText *item15 = new wxStaticText( parent, -1, _("IP address:"), wxDefaultPosition, wxDefaultSize, 0 );
     item10->Add( item15, wxSizerFlags().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
-    wxStaticText *item16 = new wxStaticText( parent, ID_DIP, _("N/A"), wxDefaultPosition, wxDefaultSize, 0 );
+    CMuleTextCtrl *item16 = new CMuleTextCtrl( parent, ID_DIP, _("N/A"), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxBORDER_NONE );
     item16->SetForegroundColour( *wxBLUE );
-    item10->Add( item16, wxSizerFlags().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
+    item16->SetBackgroundColour( parent->GetBackgroundColour() );
+    item10->Add( item16, wxSizerFlags().Expand().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
     item10->Add( 20, 20, 0, wxALIGN_CENTER, 5 );
 
     wxStaticText *item17 = new wxStaticText( parent, -1, _("User ID:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -1068,9 +1069,10 @@ wxSizer *clientDetails( wxWindow *parent, bool call_fit, bool set_sizer )
     item10->Add( item18, wxSizerFlags().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
     wxStaticText *item19 = new wxStaticText( parent, -1, _("Server IP:"), wxDefaultPosition, wxDefaultSize, 0 );
     item10->Add( item19, wxSizerFlags().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
-    wxStaticText *item20 = new wxStaticText( parent, ID_DSIP, _("N/A"), wxDefaultPosition, wxDefaultSize, 0 );
+    CMuleTextCtrl *item20 = new CMuleTextCtrl( parent, ID_DSIP, _("N/A"), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxBORDER_NONE );
     item20->SetForegroundColour( *wxBLUE );
-    item10->Add( item20, wxSizerFlags().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
+    item20->SetBackgroundColour( parent->GetBackgroundColour() );
+    item10->Add( item20, wxSizerFlags().Expand().CenterVertical().Border(wxLEFT|wxRIGHT|wxBOTTOM, 5) );
     item10->Add( 20, 20, 0, wxALIGN_CENTER, 5 );
 
     wxStaticText *item21 = new wxStaticText( parent, -1, _("Server name:"), wxDefaultPosition, wxDefaultSize, 0 );
